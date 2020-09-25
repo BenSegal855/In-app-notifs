@@ -47,7 +47,9 @@ module.exports = class InAppNotifciations extends Plugin {
               size: "small",
               onClick: () =>
                 transition.transitionTo(
-                  `/channels/${server ?? "@me"}/${args[0].id}/${args[1].id}`
+                  `/channels/${server ? server.id : "@me"}/${args[0].id}/${
+                    args[1].id
+                  }`
                 ),
             },
 
