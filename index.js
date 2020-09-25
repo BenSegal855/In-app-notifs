@@ -38,7 +38,7 @@ module.exports = class InAppNotifciations extends Plugin {
             !args[1].content.match(
               new RegExp(
                 `<(@!?|#|@&)?(${
-                  getModule(["getCurrentUser"]).getCurrentUser().id
+                  getModule(["getCurrentUser"], false).getCurrentUser().id
                 })>`,
                 `g`
               )
