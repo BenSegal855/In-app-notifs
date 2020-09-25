@@ -35,7 +35,7 @@ module.exports = class InAppNotifciations extends Plugin {
                     timeout: Math.min(Math.max(args[1].content.split(" ").length * 0.5e3, 4e3), 10e3),
                     content: this.parse(args[1].content, guild),
                     buttons: [ {
-                        text: `Jump to ${guild ? `#${args[0].name}` : "Direct Messages"}`,
+                        text: `Jump to ${guild ? `#${args[0].name}` : "DM's"}`,
                         look: "outlined",
                         size: "small",
                         onClick: () => transition.transitionTo(`/channels/${guild ? guild.id : "@me"}/${args[0].id}/${args[1].id}`)
