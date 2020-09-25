@@ -34,7 +34,18 @@ module.exports = class InAppNotifciations extends Plugin {
 
           const server = getGuild(args[0].guild_id);
 
-          if (!args[1].content.match(/<(@!?|#|@&)?(\d+)>/g) && onPing) return;
+          if (
+            !args[1].content.match(
+              new RegExp(
+                `<(@!?|#|@&)?(${
+                  getModule(["getCurrentUser"]).getCurrentUser().id
+                })>`,
+                `g`
+              )
+            ) &&
+            onPing
+          )
+            return;
 
           powercord.api.notices.sendToast(toast, {
             header: server
