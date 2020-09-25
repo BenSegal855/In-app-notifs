@@ -37,7 +37,7 @@ module.exports = class InAppNotifciations extends Plugin {
                         isEdited: () => false,
                         hasFlag: () => false // somehow having theese be functions that return false makes discord not crash????????????
                       },
-                      content: parser(args[1].content)
+                      content: parser(args[1].content, true, { channelId: args[0].id })
                     }),
                     buttons: [ {
                         text: `Jump to ${guild ? `#${args[0].name}` : "Direct Messages"}`,
