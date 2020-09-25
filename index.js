@@ -47,9 +47,7 @@ module.exports = class InAppNotifciations extends Plugin {
               size: "small",
               onClick: () =>
                 transition.transitionTo(
-                  `/channels/${args[0].guild_id ?? "@me"}/${args[0].id}/${
-                    args[1].id
-                  }`
+                  `/channels/${server ?? "@me"}/${args[0].id}/${args[1].id}`
                 ),
             },
 
@@ -61,7 +59,7 @@ module.exports = class InAppNotifciations extends Plugin {
           ],
         });
 
-        return res;
+        return args;
       });
     } catch (error) {
       console.error(
