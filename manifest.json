@@ -1,7 +1,7 @@
 {
-    "name": "in App Notifications",
-    "version": "0.0.1",
-    "description": "Display your discord notifications right in the app",
-    "author": "Ben855#0855",
-    "license": "MIT"
+  "name": "In App Notifications",
+  "version": "0.0.2",
+  "description": "Display your discord notifications right in the app",
+  "author": "Ben855#0855",
+  "license": "MIT"
 }
