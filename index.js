@@ -2,6 +2,7 @@ const { getModule, React } = require("powercord/webpack");
 const { inject, uninject } = require("powercord/injector");
 const { Plugin } = require("powercord/entities");
 const { getGuild } = getModule(["getGuild"], false);
+const shouldDisplayNotifications = getModule(["shouldDisplayNotifications"], false);
 const parser = getModule(["parse", "parseTopic"], false).parse;
 const MessageContent = getModule(m => m.type && m.type.displayName == "MessageContent", false);
 const Settings = require("./Settings");
@@ -15,18 +16,20 @@ module.exports = class InAppNotifciations extends Plugin {
         });
 
         const onPing = this.settings.get("notifyPing", false);
+        const blockDesktop = this.settings.get("blockDesktop", false);
 
         try {
             const show = getModule(["makeTextChatNotification"], false);
             const transition = getModule(["transitionTo"], false);
 
             inject( "ian", show, "makeTextChatNotification", (args) => {
+                console.log(args);
                 const toast = (Math.random().toString(36) + Date.now()).substring(2, 7);
                 const guild = getGuild(args[0].guild_id);
 
                 if (!args[1].content.match(new RegExp(`<(@!?|#|@&)?(${getModule(["getCurrentUser"], false).getCurrentUser().id})>`,`g`))
                     && onPing)
-                    return;
+                    return args;
 
                 powercord.api.notices.sendToast(toast, {
                     header: guild ? `${args[2].username} in ${guild.name}` : args[2].username,
@@ -50,8 +53,17 @@ module.exports = class InAppNotifciations extends Plugin {
                         size: "small",
                     } ]
                 });
+
                 return args;
             }, true );
+
+            inject( "ian-desktop-blocker", shouldDisplayNotifications, "shouldDisplayNotifications", (args) => {
+                if (blockDesktop && document.hasFocus()) {
+                    return false;
+                }
+                return args;
+            }, true)
+
         } catch (error) {
             console.error(`There seems to have been a problem with the in app notifications. Please report this to the developer.\n\n${error}`);
         }
@@ -59,6 +71,7 @@ module.exports = class InAppNotifciations extends Plugin {
 
     pluginWillUnload() {
         uninject("ian");
+        uninject("ian-desktop-blocker");
         powercord.api.settings.unregisterSettings(`ian-settings`);
     }
 };
