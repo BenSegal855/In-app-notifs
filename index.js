@@ -15,15 +15,12 @@ module.exports = class InAppNotifciations extends Plugin {
             render: Settings,
         });
 
-        const onPing = this.settings.get("notifyPing", false);
-        const blockDesktop = this.settings.get("blockDesktop", false);
-
         try {
             const show = getModule(["makeTextChatNotification"], false);
             const transition = getModule(["transitionTo"], false);
 
             inject( "ian", show, "makeTextChatNotification", (args) => {
-                console.log(args);
+                const onPing = this.settings.get("notifyPing", false);
                 const toast = (Math.random().toString(36) + Date.now()).substring(2, 7);
                 const guild = getGuild(args[0].guild_id);
 
@@ -58,6 +55,7 @@ module.exports = class InAppNotifciations extends Plugin {
             }, true );
 
             inject( "ian-desktop-blocker", shouldDisplayNotifications, "shouldDisplayNotifications", (args) => {
+                const blockDesktop = this.settings.get("blockDesktop", false);
                 if (blockDesktop && document.hasFocus()) {
                     return false;
                 }
