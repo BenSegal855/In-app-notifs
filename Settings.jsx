@@ -14,6 +14,14 @@ render() {
             >
             Only notify on ping
             </SwitchItem>
+
+            <SwitchItem
+                note="If you want Discord not to send you desktop notifications when you have Discord active, but still whant them when Discord isn't"
+                value={getSetting("blockDesktop", false)}
+                onChange={() => toggleSetting("blockDesktop")}
+            >
+            Block desktop notification when Discord is active
+            </SwitchItem>
         </div>
     );
 }

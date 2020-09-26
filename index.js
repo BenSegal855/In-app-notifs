@@ -16,6 +16,7 @@ module.exports = class InAppNotifciations extends Plugin {
         });
 
         const onPing = this.settings.get("notifyPing", false);
+        const blockDesktop = this.settings.get("blockDesktop", false);
 
         try {
             const show = getModule(["makeTextChatNotification"], false);
@@ -55,12 +56,14 @@ module.exports = class InAppNotifciations extends Plugin {
 
                 return args;
             }, true );
+
             inject( "ian-desktop-blocker", shouldDisplayNotifications, "shouldDisplayNotifications", (args) => {
-                if (document.hasFocus()) {
+                if (blockDesktop && document.hasFocus()) {
                     return false;
                 }
                 return args;
             }, true)
+
         } catch (error) {
             console.error(`There seems to have been a problem with the in app notifications. Please report this to the developer.\n\n${error}`);
         }
