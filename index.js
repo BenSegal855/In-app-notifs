@@ -20,7 +20,8 @@ module.exports = class InAppNotifciations extends Plugin {
             const show = getModule(["makeTextChatNotification"], false);
             const transition = getModule(["transitionTo"], false);
 
-            inject( "ian", show, "makeTextChatNotification", (args) => {
+            inject( "ian", show, "makeTextChatNotification", (args, other) => {
+                console.log(args);
                 const toast = (Math.random().toString(36) + Date.now()).substring(2, 7);
                 const guild = getGuild(args[0].guild_id);
 
@@ -50,8 +51,11 @@ module.exports = class InAppNotifciations extends Plugin {
                         size: "small",
                     } ]
                 });
-                return args;
-            }, true );
+                if (document.hasFocus())
+                    other = {body: "", name: "", icon: ""};
+                    
+                return other;
+            }, false );
         } catch (error) {
             console.error(`There seems to have been a problem with the in app notifications. Please report this to the developer.\n\n${error}`);
         }
