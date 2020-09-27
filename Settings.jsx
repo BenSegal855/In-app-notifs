@@ -22,6 +22,14 @@ render() {
             >
             Block desktop notification when Discord is active
             </SwitchItem>
+
+            <SwitchItem
+                note="When this is on, notification popups wont disapear automaticly"
+                value={getSetting("sticky", false)}
+                onChange={() => toggleSetting("sticky")}
+            >
+            Sticky Notifications
+            </SwitchItem>
         </div>
     );
 }
