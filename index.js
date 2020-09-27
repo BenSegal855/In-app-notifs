@@ -2,13 +2,14 @@ const { getModule, React } = require("powercord/webpack");
 const { inject, uninject } = require("powercord/injector");
 const { Plugin } = require("powercord/entities");
 const { getGuild } = getModule(["getGuild"], false);
+const { ack } = getModule(["ack", "ackCategory"], false);
 const shouldDisplayNotifications = getModule(["shouldDisplayNotifications"], false);
 const parser = getModule(["parse", "parseTopic"], false).parse;
 const MessageContent = getModule(m => m.type && m.type.displayName == "MessageContent", false);
 const Settings = require("./Settings");
 
 module.exports = class InAppNotifciations extends Plugin {
-    startPlugin() {
+    async startPlugin() {
         powercord.api.settings.registerSettings(`ian-settings`, {
             category: this.entityID,
             label: "In App Notifications",
@@ -18,7 +19,7 @@ module.exports = class InAppNotifciations extends Plugin {
         try {
             const show = getModule(["makeTextChatNotification"], false);
             const transition = getModule(["transitionTo"], false);
-
+            
             inject( "ian", show, "makeTextChatNotification", (args) => {
                 const onPing = this.settings.get("notifyPing", false);
                 const toast = (Math.random().toString(36) + Date.now()).substring(2, 7);
@@ -45,9 +46,10 @@ module.exports = class InAppNotifciations extends Plugin {
                         size: "small",
                         onClick: () => transition.transitionTo(`/channels/${guild ? guild.id : "@me"}/${args[0].id}/${args[1].id}`)
                     }, {
-                        text: "Dismiss",
+                        text: "Mark as read",
                         look: "ghost",
                         size: "small",
+                        onClick: () => ack(args[0].id)
                     } ]
                 });
 
