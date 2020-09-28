@@ -19,10 +19,12 @@ module.exports = class InAppNotifciations extends Plugin {
         try {
             const show = getModule(["makeTextChatNotification"], false);
             const transition = getModule(["transitionTo"], false);
+            let toasts = [];
             
             inject( "ian", show, "makeTextChatNotification", (args) => {
                 const onPing = this.settings.get("notifyPing", false);
-                const toast = (Math.random().toString(36) + Date.now()).substring(2, 7);
+                const toast = `ian-${(Math.random().toString(36) + Date.now()).substring(2, 7)}`;
+                toasts.push(toast);
                 const guild = getGuild(args[0].guild_id);
                 const time = this.settings.get("sticky", false) ? null : Math.min(Math.max(args[1].content.split(" ").length * 0.5e3, 4e3), 10e3);
 
@@ -42,9 +44,12 @@ module.exports = class InAppNotifciations extends Plugin {
                         content: parser(args[1].content, true, { channelId: args[0].id })
                     }),
                     buttons: [ {
-                        text: "Dismiss",
+                        text: toasts.length > 1 ? "Dismiss all" : "Dismiss",
                         look: "ghost",
-                        size: "small"
+                        size: "small",
+                        onClick: () => {
+                            toasts.forEach((id) => powercord.api.notices.closeToast(id));
+                        }
                     }, {
                         text: "Mark as read",
                         look: "ghost",
@@ -63,11 +68,15 @@ module.exports = class InAppNotifciations extends Plugin {
 
             inject( "ian-desktop-blocker", shouldDisplayNotifications, "shouldDisplayNotifications", (args) => {
                 const blockDesktop = this.settings.get("blockDesktop", false);
-                if (blockDesktop && document.hasFocus()) {
+                if (blockDesktop && document.hasFocus()) 
                     return false;
-                }
                 return args;
             }, true)
+
+            powercord.api.notices.on("toastLeaving", (toastID) => {
+                if (toastID.startsWith("ian-"))
+                    toasts = toasts.filter((id) =>  id != toastID);
+            });
 
         } catch (error) {
             console.error(`There seems to have been a problem with the in app notifications. Please report this to the developer.\n\n${error}`);
