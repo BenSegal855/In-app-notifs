@@ -20,7 +20,7 @@ render() {
                 value={getSetting("blockDesktop", false)}
                 onChange={() => toggleSetting("blockDesktop")}
             >
-            Block desktop notification when Discord is active
+            Disable desktop notifications when Discord is active
             </SwitchItem>
 
             <SwitchItem
