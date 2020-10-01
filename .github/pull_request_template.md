@@ -1,5 +1,5 @@
 ## Decription
-Decribe your PR. What does it add to the plugin?
+Describe your PR. What does it add to the plugin?
 
 ## Testing Methods
 Please go into detail about how you tested your code and what I should expect when doing my own testing. 
