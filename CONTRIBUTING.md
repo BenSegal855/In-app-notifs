@@ -6,7 +6,7 @@ Please try and keep to the established style. I like my tabs to be 4 spaces and 
 That being said, if you thing something looks like spaghetti and you want to fix it, go for it.
 
 ### Testing
-Seeing as one cant send themselves a notification, it can be hard to test your code. You should still try to test it though.
+Seeing as one can't send themselves a notification, it can be hard to test your code. You should still try to test it though.
 Ask for people to ping you in the powercord server, use an alt, figure something out. If you need help testing, I am happy
 to ping you our send you a dm or whatever, just let me know. Also, **tell me how and what you tested**. In the PR template,
 there is a section called **Testing methods**. Fill it out. I need to know what you tested so I can replicate your results
