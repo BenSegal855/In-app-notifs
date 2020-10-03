@@ -23,10 +23,13 @@ module.exports = class InAppNotifciations extends Plugin {
             
             inject( "ian", show, "makeTextChatNotification", (args) => {
                 const onPing = this.settings.get("notifyPing", false);
+                const sticky = this.settings.get("sticky", false);
+                const timeMult = this.settings.get("timeMult", 1);
+
                 const toast = `ian-${(Math.random().toString(36) + Date.now()).substring(2, 7)}`;
                 toasts.push(toast);
                 const guild = getGuild(args[0].guild_id);
-                const time = this.settings.get("sticky", false) ? null : Math.min(Math.max(args[1].content.split(" ").length * 0.5e3, 4e3), 10e3);
+                const time = sticky ? null : timeMult * Math.min(Math.max(args[1].content.split(" ").length * 0.5e3, 4e3), 10e3);
 
                 if (!args[1].content.match(new RegExp(`<(@!?|#|@&)?(${getModule(["getCurrentUser"], false).getCurrentUser().id})>`,`g`))
                     && onPing)

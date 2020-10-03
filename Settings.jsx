@@ -31,13 +31,15 @@ render() {
             Sticky Notifications
             </SwitchItem>
             <SliderInput
+                stickToMarkers
                 minValue={ 1 }
-                maxValue={ 10 }
-                initialValue={ this.props.getSetting("timeMult", 80) }
-                markers={[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
+                maxValue={ 5 }
+                initialValue={ this.props.getSetting("timeMult", 1) }
+                markers={[ 1, 1.25, 1.5, 2, 2.5, 3, 4, 5 ]}
                 className="ianDispTimeMult"
+                defaultValue={ this.props.getSetting("timeMult", 1) }
                 onValueChange={ v => this.props.updateSetting("timeMult", Math.round(v)) }
-                onValueRender={ v => <span>{Math.round(v)} px</span> }
+                disabled={getSetting("sticky", false)}
             >Display time multiplier</SliderInput>
         </div>
     );
