@@ -8,7 +8,7 @@ render() {
     return (
         <div>
             <SwitchItem
-                note="If to only notify you if you were pinged or not."
+                note="When enabled, notify when pinged."
                 value={getSetting("notifyPing", false)}
                 onChange={() => toggleSetting("notifyPing")}
             >
@@ -16,15 +16,15 @@ render() {
             </SwitchItem>
 
             <SwitchItem
-                note="If you want Discord not to send you desktop notifications when you have Discord active, but still want them when Discord isn't"
+                note="When enabled, desktop notifications will be disabled; if Discord is active."
                 value={getSetting("blockDesktop", false)}
                 onChange={() => toggleSetting("blockDesktop")}
             >
-            Block desktop notification when Discord is active
+            Disable desktop notifications when Discord is active
             </SwitchItem>
 
             <SwitchItem
-                note="When this is on, notification popups wont disapear automaticly"
+                note="When enabled, notifications will not vanish automatically."
                 value={getSetting("sticky", false)}
                 onChange={() => toggleSetting("sticky")}
             >
