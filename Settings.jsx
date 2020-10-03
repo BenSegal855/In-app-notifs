@@ -1,4 +1,4 @@
-const { SwitchItem } = require("powercord/components/settings");
+const { SwitchItem, SliderInput } = require("powercord/components/settings");
 const { React } = require("powercord/webpack");
 
 module.exports = class Settings extends React.Component {
@@ -8,7 +8,7 @@ render() {
     return (
         <div>
             <SwitchItem
-                note="If to only notify you if you were pinged or not."
+                note="When enabled, notify when pinged."
                 value={getSetting("notifyPing", false)}
                 onChange={() => toggleSetting("notifyPing")}
             >
@@ -16,20 +16,31 @@ render() {
             </SwitchItem>
 
             <SwitchItem
-                note="If you want Discord not to send you desktop notifications when you have Discord active, but still want them when Discord isn't"
+                note="When enabled, desktop notifications will be disabled; if Discord is active."
                 value={getSetting("blockDesktop", false)}
                 onChange={() => toggleSetting("blockDesktop")}
             >
-            Block desktop notification when Discord is active
+            Disable desktop notifications when Discord is active
             </SwitchItem>
 
             <SwitchItem
-                note="When this is on, notification popups wont disapear automaticly"
+                note="When enabled, notifications will not vanish automatically."
                 value={getSetting("sticky", false)}
                 onChange={() => toggleSetting("sticky")}
             >
             Sticky Notifications
             </SwitchItem>
+            <SliderInput
+                stickToMarkers
+                minValue={ 1 }
+                maxValue={ 5 }
+                initialValue={ this.props.getSetting("timeMult", 1) }
+                markers={[ 1, 1.25, 1.5, 2, 2.5, 3, 4, 5 ]}
+                className="ianDispTimeMult"
+                defaultValue={ this.props.getSetting("timeMult", 1) }
+                onValueChange={ v => this.props.updateSetting("timeMult", Math.round(v)) }
+                disabled={getSetting("sticky", false)}
+            >Display time multiplier</SliderInput>
         </div>
     );
 }
