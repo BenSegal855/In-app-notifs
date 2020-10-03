@@ -1,4 +1,4 @@
-const { SwitchItem } = require("powercord/components/settings");
+const { SwitchItem, SliderInput } = require("powercord/components/settings");
 const { React } = require("powercord/webpack");
 
 module.exports = class Settings extends React.Component {
@@ -30,6 +30,15 @@ render() {
             >
             Sticky Notifications
             </SwitchItem>
+            <SliderInput
+                minValue={ 1 }
+                maxValue={ 10 }
+                initialValue={ this.props.getSetting("timeMult", 80) }
+                markers={[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]}
+                className="ianDispTimeMult"
+                onValueChange={ v => this.props.updateSetting("timeMult", Math.round(v)) }
+                onValueRender={ v => <span>{Math.round(v)} px</span> }
+            >Display time multiplier</SliderInput>
         </div>
     );
 }
