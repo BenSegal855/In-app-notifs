@@ -38,7 +38,7 @@ render() {
                 markers={[ 1, 1.25, 1.5, 2, 2.5, 3, 4, 5 ]}
                 className="ianDispTimeMult"
                 defaultValue={ this.props.getSetting("timeMult", 1) }
-                onValueChange={ v => this.props.updateSetting("timeMult", Math.round(v)) }
+                onValueChange={ v => this.props.updateSetting("timeMult", v) }
                 disabled={getSetting("sticky", false)}
             >Display time multiplier</SliderInput>
         </div>
