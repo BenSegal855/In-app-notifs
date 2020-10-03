@@ -4,7 +4,6 @@ const { React } = require("powercord/webpack");
 module.exports = class Settings extends React.Component {
     render() {
         const { getSetting, toggleSetting } = this.props;
-
         return (
             <div>
                 <SwitchItem
