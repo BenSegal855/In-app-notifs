@@ -1,8 +1,6 @@
 const { getModule, React } = require("powercord/webpack");
 const { inject, uninject } = require("powercord/injector");
 const { Plugin } = require("powercord/entities");
-const { getGuild } = getModule(["getGuild"], false);
-const { ack } = getModule(["ack", "ackCategory"], false);
 const shouldDisplayNotifications = getModule(["shouldDisplayNotifications"], false);
 const parser = getModule(["parse", "parseTopic"], false).parse;
 const MessageContent = getModule(m => m.type && m.type.displayName == "MessageContent", false);
@@ -19,6 +17,9 @@ module.exports = class InAppNotifciations extends Plugin {
         try {
             const show = getModule(["makeTextChatNotification"], false);
             const transition = getModule(["transitionTo"], false);
+            const { getGuild } = getModule(["getGuild"], false);
+            const { ack } = getModule(["ack", "ackCategory"], false);
+
             let toasts = [];
             
             inject( "ian", show, "makeTextChatNotification", (args) => {
