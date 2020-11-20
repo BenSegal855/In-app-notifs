@@ -3,13 +3,13 @@
 const { getModule, React, FluxDispatcher } = require('powercord/webpack');
 const { inject, uninject } = require('powercord/injector');
 const { Plugin } = require('powercord/entities');
-const shouldDisplayNotifications = getModule(['shouldDisplayNotifications'], false);
-const parser = getModule(['parse', 'parseTopic'], false).parse;
+const shouldDisplayNotifications = getModule([ 'shouldDisplayNotifications' ], false);
+const parser = getModule([ 'parse', 'parseTopic' ], false).parse;
 const MessageContent = getModule(m => m.type && m.type.displayName === 'MessageContent', false);
 const Settings = require('./Settings');
 
 module.exports = class InAppNotifciations extends Plugin {
-    async startPlugin() {
+    async startPlugin () {
         powercord.api.settings.registerSettings('ian-settings', {
             category: this.entityID,
             label: 'In App Notifications',
@@ -18,15 +18,23 @@ module.exports = class InAppNotifciations extends Plugin {
 
         this.messageGot = this.messageGot.bind(this);
         FluxDispatcher.subscribe('MESSAGE_CREATE', this.messageGot);
+
+        // const shouldNotify = getModule([ 'shouldNotify' ], false);
+        // inject('ian-notify', shouldNotify, 'shouldNotify', (args) => {
+        //     console.log(args);
+        //     return args;
+        // }, true);
     }
 
-    pluginWillUnload() {
+    pluginWillUnload () {
         FluxDispatcher.unsubscribe('MESSAGE_CREATE', this.messageGot);
         powercord.api.settings.unregisterSettings('ian-settings');
+        // uninject('ian-notify');
     }
 
-    messageGot(msg) {
+    messageGot (msg) {
         // const user = getModule([ 'getCurrentUser' ]).getCurrentUser();
-        console.log('got a message 2');
+        const { shouldNotify } = getModule([ 'shouldNotify' ], false);
+        console.log(shouldNotify(msg, msg.channel_id));
     }
 };
