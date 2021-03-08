@@ -7,6 +7,6 @@ Anything you don't mention here, I won't know you did and will assume you didn't
 
 ## Check the boxes
 - [ ] I tested the features I added.
-- [ ] I followed the established style and used 4 space tabs
+- [ ] I followed the established style eslint rules
 - [ ] I made sure this doesnt break any of [Powercord's Plugin Guidelines](https://github.com/powercord-community/guidelines)
 - [ ] Don't check this box, I want to make sure you actually read them.
