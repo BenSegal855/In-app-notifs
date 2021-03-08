@@ -23,31 +23,34 @@ module.exports = class InAppNotifications extends Plugin {
 
 			let toasts = [];
 
-			inject('ian', show, 'makeTextChatNotification', (args) => {
+			inject('ian', show, 'makeTextChatNotification', args => {
+				const [ channel, msg, author ] = args;
+
 				const onPing = this.settings.get('notifyPing', false);
 				const sticky = this.settings.get('sticky', false);
 				const timeMult = this.settings.get('timeMult', 1);
 
 				const toast = `ian-${(Math.random().toString(36) + Date.now()).substring(2, 7)}`;
 				toasts.push(toast);
-				const guild = getGuild(args[0].guild_id);
-				const time = sticky ? null : timeMult * Math.min(Math.max(args[1].content.split(' ').length * 0.5e3, 4e3), 10e3);
+				const guild = getGuild(channel.guild_id);
+				const time = sticky ? null : timeMult * Math.min(Math.max(msg.content.split(' ').length * 0.5e3, 4e3), 10e3);
 
-				if (!args[1].content.match(new RegExp(`<(@!?|#|@&)?(${getModule([ 'getCurrentUser' ], false).getCurrentUser().id})>`, 'g'))
-										&& onPing) {
+				if (!msg.content.match(new RegExp(`<(@!?|#|@&)?(${getModule([ 'getCurrentUser' ], false).getCurrentUser().id})>`, 'g'))
+						&& onPing) {
 					return args;
 				}
 
 				powercord.api.notices.sendToast(toast, {
-					header: guild ? `${args[2].username} in ${guild.name}` : args[2].username,
+					header: `${author.username} ${msg.referenced_message ? 'replied' : ''} ${guild ? `in ${guild.name}` : 'in DM\'s'}`,
 					timeout: time,
+					icon: msg.referenced_message ? 'reply' : 'comment-alt',
 					content: React.createElement(MessageContent, {
 						message: {
-							...args[1],
+							...msg,
 							isEdited: () => false,
 							hasFlag: () => false // somehow having theses be functions that return false makes discord not crash????????????
 						},
-						content: parser(args[1].content, true, { channelId: args[0].id })
+						content: parser(msg.content, true, { channelId: channel.id })
 					}),
 					buttons: [ {
 						text: toasts.length > 1 ? 'Dismiss all' : 'Dismiss',
@@ -60,12 +63,12 @@ module.exports = class InAppNotifications extends Plugin {
 						text: 'Mark as read',
 						look: 'ghost',
 						size: 'small',
-						onClick: () => ack(args[0].id)
+						onClick: () => ack(channel.id)
 					}, {
-						text: `Jump to ${guild ? `#${args[0].name}` : 'DM\'s'}`,
+						text: `Jump to ${guild ? `#${channel.name}` : 'DM\'s'}`,
 						look: 'outlined',
 						size: 'small',
-						onClick: () => transition.transitionTo(`/channels/${guild ? guild.id : '@me'}/${args[0].id}/${args[1].id}`)
+						onClick: () => transition.transitionTo(`/channels/${guild ? guild.id : '@me'}/${channel.id}/${msg.id}`)
 					} ]
 				});
 
