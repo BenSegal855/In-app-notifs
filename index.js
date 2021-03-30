@@ -2,9 +2,8 @@ const { getModule, React } = require('powercord/webpack');
 const { inject, uninject } = require('powercord/injector');
 const { Plugin } = require('powercord/entities');
 const shouldDisplayNotifications = getModule([ 'shouldDisplayNotifications' ], false);
-const parser = getModule([ 'parse', 'parseTopic' ], false).parse;
-const MessageContent = getModule(m => m.type && m.type.displayName === 'MessageContent', false);
-const Settings = require('./Settings');
+const Settings = require('./components/Settings');
+const MsgContent = require('./components/MsgContent');
 
 module.exports = class InAppNotifications extends Plugin {
 
@@ -44,14 +43,7 @@ module.exports = class InAppNotifications extends Plugin {
 					header: `${author.username} ${msg.referenced_message ? 'replied' : ''} ${guild ? `in ${guild.name}` : 'in DM\'s'}`,
 					timeout: time,
 					icon: msg.referenced_message ? 'reply' : 'comment-alt',
-					content: React.createElement(MessageContent, {
-						message: {
-							...msg,
-							isEdited: () => false,
-							hasFlag: () => false // somehow having theses be functions that return false makes discord not crash????????????
-						},
-						content: parser(msg.content, true, { channelId: channel.id })
-					}),
+					content: React.createElement(MsgContent, { msg }),
 					buttons: [ {
 						text: toasts.length > 1 ? 'Dismiss all' : 'Dismiss',
 						look: 'ghost',
