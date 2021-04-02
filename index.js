@@ -8,6 +8,8 @@ const MsgContent = require('./components/MsgContent');
 module.exports = class InAppNotifications extends Plugin {
 
 	async startPlugin() {
+		this.loadStylesheet('./style.css');
+
 		powercord.api.settings.registerSettings('ian-settings', {
 			category: this.entityID,
 			label: 'In App Notifications',
@@ -88,6 +90,7 @@ module.exports = class InAppNotifications extends Plugin {
 	pluginWillUnload() {
 		uninject('ian');
 		uninject('ian-desktop-blocker');
+		uninject('ian-embed-test');
 		powercord.api.settings.unregisterSettings('ian-settings');
 	}
 

@@ -1,0 +1,21 @@
+.ian-toast {
+	text-align: left;
+}
+
+.ian-simple-embed {
+	display: flex;
+	--ian-embed-radius: 4px;
+}
+
+.ian-simple-embed-text {
+	padding: 1rem;
+	background-color: var(--background-secondary);
+	border-radius: 0 var(--ian-embed-radius) var(--ian-embed-radius) 0;
+	font-weight: bold;
+}
+
+.ian-simple-embed-color {
+	width: var(--ian-embed-radius);
+	border-radius: var(--ian-embed-radius) 0 0 var(--ian-embed-radius);
+}
+
