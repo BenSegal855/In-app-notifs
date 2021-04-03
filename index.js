@@ -44,7 +44,8 @@ module.exports = class InAppNotifications extends Plugin {
 				powercord.api.notices.sendToast(toast, {
 					header: `${author.username} ${msg.referenced_message ? 'replied' : ''} ${guild ? `in ${guild.name}` : 'in DM\'s'}`,
 					timeout: time,
-					icon: msg.referenced_message ? 'reply' : 'comment-alt',
+					image: author.avatarURL,
+					imageClassName: 'ian-pfp',
 					content: React.createElement(MsgContent, { msg }),
 					buttons: [ {
 						text: toasts.length > 1 ? 'Dismiss all' : 'Dismiss',
