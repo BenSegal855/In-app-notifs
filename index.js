@@ -36,7 +36,7 @@ module.exports = class InAppNotifications extends Plugin {
 				const guild = getGuild(channel.guild_id);
 				const time = sticky ? null : timeMult * Math.min(Math.max(msg.content.split(' ').length * 0.5e3, 4e3), 10e3);
 
-				if (!msg.content.match(new RegExp(`<(@!?|#|@&)?(${getModule([ 'getCurrentUser' ], false).getCurrentUser().id})>`, 'g'))
+				if (!msg.mentions.find(user => user.id === getModule([ 'getCurrentUser' ], false).getCurrentUser().id)
 						&& onPing) {
 					return args;
 				}
