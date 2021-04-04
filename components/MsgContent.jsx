@@ -14,7 +14,7 @@ module.exports = class MsgContent extends React.Component {
 			hasFlag: () => false
 		};
 
-		const image = msg.attachments.length > 0 && msg.attachments[0].content_type.includes('image')
+		const image = msg.attachments.length > 0 && msg.attachments[0].content_type?.includes('image')
 			? msg.attachments[0].url
 			: null;
 
