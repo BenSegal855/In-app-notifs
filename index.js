@@ -41,7 +41,6 @@ module.exports = class InAppNotifications extends Plugin {
 					return args;
 				}
 
-				console.log('IAN author', author);
 				powercord.api.notices.sendToast(toast, {
 					header: `${author.username} ${msg.referenced_message ? 'replied' : ''} ${guild ? `in ${guild.name}` : 'in DM\'s'}`,
 					timeout: time,
