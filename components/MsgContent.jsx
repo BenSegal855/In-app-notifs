@@ -11,7 +11,8 @@ module.exports = class MsgContent extends React.Component {
 		const myMsg = {
 			...msg,
 			isEdited: () => false,
-			hasFlag: () => false
+			hasFlag: () => false,
+			isCommandType: () => false
 		};
 
 		const image = msg.attachments.length > 0 && msg.attachments[0].content_type?.includes('image')
