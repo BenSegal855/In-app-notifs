@@ -24,7 +24,7 @@ module.exports = class InAppNotifications extends Plugin {
 
 			let toasts = [];
 
-			inject('ian', show, 'makeTextChatNotification', args => {
+			inject('ian', show, 'makeTextChatNotification', (args) => {
 				const [ channel, msg, author ] = args;
 
 				const onPing = this.settings.get('notifyPing', false);
@@ -84,7 +84,7 @@ module.exports = class InAppNotifications extends Plugin {
 				}
 			});
 		} catch (error) {
-			console.error(`There seems to have been a problem with the in app notifications. Please report this to the developer.\n\n${error}`);
+			this.error(`There seems to have been a problem with the in app notifications. Please report this to the developer.\n\n${error}`);
 		}
 	}
 
