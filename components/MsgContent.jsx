@@ -16,15 +16,17 @@ module.exports = class MsgContent extends React.Component {
 		};
 
 		const image = msg.attachments.length > 0 && msg.attachments[0].content_type?.includes('image')
-			? msg.attachments[0].url
+			? msg.attachments[0]
 			: null;
+
+		const isSpoiler = image.filename.startsWith('SPOILER_');
 
 		return <div className='ian-toast'>
 			<MessageContent
 				message={myMsg}
 				content={parser(msg.content, true, { channelId: msg.channel_id })}
 			/>
-			{ image && <img src={image} width={260}/> }
+			{ image && <img src={image.url} className={isSpoiler ? 'ian-img-spoiler' : ''} width={260}/> }
 			{ myMsg.embeds.length > 0 && <SimpleEmbed embed={myMsg.embeds[0]}/> }
 		</div>;
 	}

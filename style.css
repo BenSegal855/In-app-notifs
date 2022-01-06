@@ -23,3 +23,6 @@
 	border-radius: var(--ian-embed-radius) 0 0 var(--ian-embed-radius);
 }
 
+.ian-img-spoiler {
+	filter: blur(44px);
+}
