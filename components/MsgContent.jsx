@@ -19,7 +19,7 @@ module.exports = class MsgContent extends React.Component {
 			? msg.attachments[0]
 			: null;
 
-		const isSpoiler = image.filename.startsWith('SPOILER_');
+		const isSpoiler = image?.filename?.startsWith('SPOILER_');
 
 		return <div className='ian-toast'>
 			<MessageContent
